@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name" translatable="false">Weather Boy</string>
+    <string name="updated">Updated</string>
+    <string name="search_placeholder">Search city…</string>
+    <string name="pressure_unit">hpa</string>
+    <string name="humidity_unit">%</string>
+    <string name="windspeed_unit">m/s</string>
+    <string name="temperature_unit">°C</string>
+</resources>

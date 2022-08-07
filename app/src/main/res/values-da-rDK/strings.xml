@@ -1,0 +1,8 @@
+<resources>
+    <string name="updated">Opdateret</string>
+    <string name="search_placeholder">Søg by…</string>
+    <string name="pressure_unit">hpa</string>
+    <string name="humidity_unit">%</string>
+    <string name="windspeed_unit">m/s</string>
+    <string name="temperature_unit">°C</string>
+</resources>
