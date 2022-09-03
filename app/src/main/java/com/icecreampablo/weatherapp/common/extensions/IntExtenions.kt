@@ -14,3 +14,5 @@ fun Int.kmphToMps(): Int {
     val KMPH_TO_MPS = 3.6
     return (this / KMPH_TO_MPS).roundToInt()
 }
+
+fun Int.toBoolean(): Boolean = this == 1

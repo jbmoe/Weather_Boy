@@ -12,6 +12,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.create
@@ -24,12 +25,25 @@ object AppModule {
         .add(KotlinJsonAdapterFactory())
         .build()
 
+    private val httpClient = OkHttpClient()
+        .newBuilder()
+        .addInterceptor { chain ->
+            val url = chain
+                .request()
+                .url
+                .newBuilder()
+                .addQueryParameter("key", "793e427980204ebc9de151724220107")
+                .build()
+            chain.proceed(chain.request().newBuilder().url(url).build())
+        }.build()
+
     @Provides
     @Singleton
     fun provideWeatherApi(): WeatherApi {
         return Retrofit.Builder()
-            .baseUrl("https://weatherappruntimeweatherapi20220725123853.azurewebsites.net/")
+            .baseUrl("http://api.weatherapi.com/")
             .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .client(httpClient)
             .build()
             .create()
     }

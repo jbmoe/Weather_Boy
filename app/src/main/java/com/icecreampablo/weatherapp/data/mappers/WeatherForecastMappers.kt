@@ -5,8 +5,10 @@ import com.icecreampablo.weatherapp.data.remote.models.CurrentDto
 import com.icecreampablo.weatherapp.data.remote.models.ForecastDaysDto
 import com.icecreampablo.weatherapp.data.remote.models.ForecastWeatherDto
 import com.icecreampablo.weatherapp.domain.models.*
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt
 
 fun ForecastWeatherDto.mapToWeatherForecast(): WeatherForecast {
@@ -19,7 +21,7 @@ fun ForecastWeatherDto.mapToWeatherForecast(): WeatherForecast {
 
 fun CurrentDto.mapToCurrentWeather(): CurrentWeather {
     return CurrentWeather(
-        lastUpdated = LocalDateTime.parse(this.lastUpdated),
+        lastUpdated = LocalDateTime.parse(this.lastUpdated, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")),
         temperatureCelsius = this.tempCelsius,
         windSpeedMps = this.windSpeedKph.kmphToMps().roundToInt(),
         pressureMb = this.pressureMb.roundToInt(),
@@ -31,20 +33,20 @@ fun CurrentDto.mapToCurrentWeather(): CurrentWeather {
 
 fun List<ForecastDaysDto>.mapToForecastDays(): List<ForecastDay> {
     return this.map { day ->
-        val timeOfSunrise = LocalTime.parse(day.sunrise)
-        val timeOfSunset = LocalTime.parse(day.sunset)
+        val timeOfSunrise = LocalTime.parse(day.astro.sunrise, DateTimeFormatter.ofPattern("hh:mm a"))
+        val timeOfSunset = LocalTime.parse(day.astro.sunset, DateTimeFormatter.ofPattern("hh:mm a"))
         ForecastDay(
-            date = LocalDateTime.parse(day.date),
-            maxTemperatureCelsius = day.maxTempCelsius.roundToInt(),
-            minTemperatureCelsius = day.minTempCelsius.roundToInt(),
-            maxWindSpeedMps = day.maxWindSpeedKph.kmphToMps().roundToInt(),
-            totalPrecipitationMm = day.totalPrecipitationMm,
-            avgHumidity = day.avgHumidity.roundToInt(),
-            weatherType = day.condition.mapToWeatherType(),
+            date = LocalDate.parse(day.date, DateTimeFormatter.ofPattern("yyyy-MM-dd")),
+            maxTemperatureCelsius = day.day.maxTempCelsius.roundToInt(),
+            minTemperatureCelsius = day.day.minTempCelsius.roundToInt(),
+            maxWindSpeedMps = day.day.maxWindSpeedKph.kmphToMps().roundToInt(),
+            totalPrecipitationMm = day.day.totalPrecipitationMm,
+            avgHumidity = day.day.avgHumidity.roundToInt(),
+            weatherType = day.day.condition.mapToWeatherType(),
             timeOfSunrise = timeOfSunrise,
             timeOfSunset = timeOfSunset,
             hours = day.hours.map { hour ->
-                val hourTime = LocalDateTime.parse(hour.time)
+                val hourTime = LocalDateTime.parse(hour.time, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
                 HourWeather(
                     time = hourTime,
                     timeOfSunrise = if (timeOfSunrise.hour == hourTime.hour) timeOfSunrise else null,

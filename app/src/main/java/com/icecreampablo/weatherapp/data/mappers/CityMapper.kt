@@ -5,7 +5,7 @@ import com.icecreampablo.weatherapp.domain.models.City
 import com.icecreampablo.weatherapp.domain.models.Country
 
 fun CitySearchResultDto.mapToCity(): City {
-    return City(this.name, this.region, Country(this.country, null))
+    return City(this.name, this.region, Country(this.country, null), url = this.url)
 }
 
 fun List<CitySearchResultDto>.mapToCities(): List<City> {

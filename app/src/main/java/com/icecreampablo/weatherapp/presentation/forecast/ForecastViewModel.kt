@@ -31,7 +31,7 @@ class ForecastViewModel @Inject constructor(
         private set
 
     init {
-        loadWeatherForecast(sharedPreferencesManager.getLastViewedCity()?.cityName ?: "Aarhus")
+        loadWeatherForecast(sharedPreferencesManager.getLastViewedCity()?.url ?: "Aarhus")
         loadSavedCities()
     }
 
@@ -106,11 +106,12 @@ class ForecastViewModel @Inject constructor(
             onBeforeLoadData?.invoke(this)
             state = when (val result = repository.getWeatherForecast(
                 cityName = cityName,
-                language = Locale.getDefault().toString()
+                language = Locale.getDefault().language
             )) {
                 is Resource.Success -> {
-                    result.data?.location?.mapToCity()
-                        ?.let { sharedPreferencesManager.saveLastViewedCity(it) }
+                    result.data?.location?.mapToCity()?.let {
+                        sharedPreferencesManager.saveLastViewedCity(it)
+                    }
                     state.pabloCopy(
                         weatherForecast = result.data,
                         isLoadingWeather = false,

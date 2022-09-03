@@ -6,16 +6,15 @@ import com.icecreampablo.weatherapp.data.mappers.mapToWeatherForecast
 import com.icecreampablo.weatherapp.data.remote.WeatherApi
 import com.icecreampablo.weatherapp.domain.models.Astronomy
 import com.icecreampablo.weatherapp.domain.models.City
+import com.icecreampablo.weatherapp.domain.models.WeatherForecast
 import com.icecreampablo.weatherapp.domain.repository.WeatherRepository
 import com.icecreampablo.weatherapp.domain.util.Resource
-import com.icecreampablo.weatherapp.domain.models.WeatherForecast
 import java.time.LocalDate
 import javax.inject.Inject
 
 class WeatherRepositoryImpl @Inject constructor(
     private val api: WeatherApi
 ) : WeatherRepository {
-
     override suspend fun getWeatherForecast(
         cityName: String,
         days: Int,
@@ -63,4 +62,5 @@ class WeatherRepositoryImpl @Inject constructor(
             Resource.Error(e.message ?: "An unknown error occurred.")
         }
     }
+
 }

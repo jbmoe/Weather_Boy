@@ -1,5 +1,6 @@
 package com.icecreampablo.weatherapp.domain.models
 
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
@@ -17,7 +18,7 @@ data class WeatherLocation(
 )
 
 data class ForecastDay(
-    val date: LocalDateTime,
+    val date: LocalDate,
     val maxTemperatureCelsius: Int,
     val minTemperatureCelsius: Int,
     val maxWindSpeedMps: Int,

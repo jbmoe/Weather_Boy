@@ -4,28 +4,27 @@ import com.icecreampablo.weatherapp.data.remote.models.AstronomyDto
 import com.icecreampablo.weatherapp.data.remote.models.CitySearchResultDto
 import com.icecreampablo.weatherapp.data.remote.models.ForecastWeatherDto
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.Query
 import java.time.LocalDate
 
 interface WeatherApi {
-    @GET("weather/forecast")
+    @GET("v1/forecast.json")
     suspend fun getWeatherForecast(
-        @Query("cityName") cityName: String,
+        @Query("q") cityName: String,
         @Query("days") days: Int,
-        @Query("includeAirQualityData") includeAirQualityData: Boolean,
-        @Query("includeWeatherAlert") includeWeatherAlert: Boolean,
-        @Header("Accept-Language") language: String,
-    ): ForecastWeatherDto
+        @Query("aqi") includeAirQualityData: Boolean,
+        @Query("alerts") includeWeatherAlert: Boolean,
+        @Query("lang") language: String
+    ) : ForecastWeatherDto
 
-    @GET("weather/astronomy")
+    @GET("v1/astronomy.json")
     suspend fun getAstronomyData(
         @Query("cityName") cityName: String,
         @Query("date") date: LocalDate
     ): AstronomyDto
 
-    @GET("search/cities")
+    @GET("v1/search.json")
     suspend fun searchCities(
-        @Query("cityName") cityName: String
+        @Query("q") cityName: String
     ): List<CitySearchResultDto>
 }

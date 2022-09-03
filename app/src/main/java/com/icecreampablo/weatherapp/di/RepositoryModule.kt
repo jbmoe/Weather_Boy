@@ -1,6 +1,7 @@
 package com.icecreampablo.weatherapp.di
 
 import com.icecreampablo.weatherapp.data.repository.WeatherRepositoryImpl
+import com.icecreampablo.weatherapp.data.repository.WeatherRepositoryTestImpl
 import com.icecreampablo.weatherapp.domain.repository.WeatherRepository
 import dagger.Binds
 import dagger.Module
